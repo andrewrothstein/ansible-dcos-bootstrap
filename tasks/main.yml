@@ -36,32 +36,13 @@
   args:
     chdir: '{{dcos_bootstrap_dir}}'
 
-- name: install prereqs
-  with_items:
-    - '{{dcos_bootstrap_dir}}/{{dcos_bootstrap_generate_config}} --install-prereqs'
-  command: '{{item}}'
-  args:
-    chdir: '{{dcos_bootstrap_dir}}'
-
-- name: preflight
-  with_items:
-    - '{{dcos_bootstrap_dir}}/{{dcos_bootstrap_generate_config}} --preflight'
-  command: '{{item}}'
-  ignore_errors : yes
-  args:
-    chdir: '{{dcos_bootstrap_dir}}'
-
-- name: deploy
-  with_items:
-    - '{{dcos_bootstrap_dir}}/{{dcos_bootstrap_generate_config}} --deploy'
-  command: '{{item}}'
-  args:
-    chdir: '{{dcos_bootstrap_dir}}'
-
-- name: post flight
-  with_items:
-    - '{{dcos_bootstrap_dir}}/{{dcos_bootstrap_generate_config}} --postflight'
-  command: '{{item}}'
-  args:
-    chdir: '{{dcos_bootstrap_dir}}'
+- name: launch bootstrap container
+  docker:
+    name: dcos-bootstrap
+    image: nginx
+    state: started
+    ports:
+      - "{{dcos_bootstrap_port}}:80"
+    volumes:
+      - "{{dcos_bootstrap_dir}}/genconf/serve:/usr/share/nginx/html:ro"
 

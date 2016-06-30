@@ -2,4 +2,4 @@
 # vars file for dcos-bootstrap
 dcos_bootstrap_generate_config : 'dcos_generate_config.sh'
 dcos_bootstrap_generate_config_url : '{{dcos_bootstrap_mirror}}/{{dcos_bootstrap_generate_config}}'
-
+dcos_bootstrap_url : "http://{{ hostvars[groups[dcos_bootstrap_group][0]]['ansible_default_ipv4']['address'] }}:{{dcos_bootstrap_port}}"

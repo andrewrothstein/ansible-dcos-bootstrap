@@ -2,12 +2,20 @@
 dcos_bootstrap_iface : eth0
 dcos_bootstrap_superuser_password : '8f356880-3e04-11e6-97d5-989096e41e7c'
 dcos_bootstrap_mirror : 'https://downloads.dcos.io/dcos/EarlyAccess'
-dcos_bootstrap_dir : '~/dcos-bootstrap'
+dcos_bootstrap_dir : '{{ansible_env.HOME}}/dcos-bootstrap'
 
 dcos_bootstrap_master_group : 'dcos-masters'
 dcos_bootstrap_master_discovery : 'static'
+
+# all public and private agents
 dcos_bootstrap_agent_group : 'dcos-agents'
-dcos_bootstrap_url : 'file:///opt/dcos_install_tmp'
+
+# group containing the bootstrap node
+dcos_bootstrap_group : 'dcos-bootstrap'
+
+# public port exposing the installer to the agents
+dcos_bootstrap_port : 8080
+
 dcos_bootstrap_cluster_name : 'test-dcos-cluster'
 dcos_bootstrap_ssh_port : 22
 dcos_bootstrap_ssh_user : 'centos'
