@@ -1,0 +1,15 @@
+---
+cluster_name: {{dcos_bootstrap_cluster_name | to_json}}
+exhibitor_storage_backend: {{dcos_bootstrap_exhibitor_storage_backend | to_json}}
+master_discovery: {{dcos_bootstrap_master_discovery | to_json}}
+
+ssh_port : {{dcos_bootstrap_ssh_port | to_json}}
+ssh_user : {{dcos_bootstrap_ssh_user | to_json}}
+
+master_list: [{% for host in groups[dcos_bootstrap_master_group] %}{{hostvars[host]['ansible_' + hostvars[host]['dcos_bootstrap_iface']]['ipv4']['address'] | to_json}}{% if not loop.last %},{% endif %}{% endfor %}]
+
+agent_list: [{% for host in groups[dcos_bootstrap_agent_group] %}{{hostvars[host]['ansible_' + hostvars[host]['dcos_bootstrap_iface']]['ipv4']['address'] | to_json}}{% if not loop.last %},{% endif %}{% endfor %}]
+
+resolvers: {% if dcos_upstream_resolvers is defined %}{{ dcos_upstream_resolvers | to_json }}{% elif ansible_dns.nameservers is defined %}["{{ ansible_dns.nameservers[0] }}"]{% endif %}
+
+boostrap_url: {{dcos_bootstrap_url|to_json}}

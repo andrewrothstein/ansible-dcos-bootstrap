@@ -1,0 +1,5 @@
+---
+# vars file for dcos-bootstrap
+dcos_bootstrap_generate_config : 'dcos_generate_config.sh'
+dcos_bootstrap_generate_config_url : '{{dcos_bootstrap_mirror}}/{{dcos_bootstrap_generate_config}}'
+

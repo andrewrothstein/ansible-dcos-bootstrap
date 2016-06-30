@@ -1,0 +1,67 @@
+---
+- name : mkdir bootstrap dir
+  with_items:
+    - '{{dcos_bootstrap_dir}}'
+    - '{{dcos_bootstrap_dir}}/genconf'
+  file: >-
+    path={{item}}
+    state=directory
+    mode=0755
+
+- name: install ssh key
+  copy: >-
+    src={{dcos_bootstrap_ssh_key}}
+    dest={{dcos_bootstrap_dir}}/genconf/ssh_key
+    mode=0600
+    
+- name: write templates...
+  with_items:
+    - genconf/ip-detect
+    - genconf/config.yaml
+  template: >-
+    src={{item}}.j2
+    dest={{dcos_bootstrap_dir}}/{{item}}
+    mode=0755
+    
+- name: get installer
+  get_url: >-
+    url={{dcos_bootstrap_generate_config_url}}
+    dest={{dcos_bootstrap_dir}}/{{dcos_bootstrap_generate_config}}
+    mode=0755
+    
+- name: generate configuration
+  with_items:
+    - '{{dcos_bootstrap_dir}}/{{dcos_bootstrap_generate_config}}'
+  command: '{{item}}'
+  args:
+    chdir: '{{dcos_bootstrap_dir}}'
+
+- name: install prereqs
+  with_items:
+    - '{{dcos_bootstrap_dir}}/{{dcos_bootstrap_generate_config}} --install-prereqs'
+  command: '{{item}}'
+  args:
+    chdir: '{{dcos_bootstrap_dir}}'
+
+- name: preflight
+  with_items:
+    - '{{dcos_bootstrap_dir}}/{{dcos_bootstrap_generate_config}} --preflight'
+  command: '{{item}}'
+  ignore_errors : yes
+  args:
+    chdir: '{{dcos_bootstrap_dir}}'
+
+- name: deploy
+  with_items:
+    - '{{dcos_bootstrap_dir}}/{{dcos_bootstrap_generate_config}} --deploy'
+  command: '{{item}}'
+  args:
+    chdir: '{{dcos_bootstrap_dir}}'
+
+- name: post flight
+  with_items:
+    - '{{dcos_bootstrap_dir}}/{{dcos_bootstrap_generate_config}} --postflight'
+  command: '{{item}}'
+  args:
+    chdir: '{{dcos_bootstrap_dir}}'
+
