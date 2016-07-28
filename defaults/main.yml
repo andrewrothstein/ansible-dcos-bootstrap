@@ -21,3 +21,8 @@ dcos_bootstrap_ssh_port : 22
 dcos_bootstrap_ssh_user : 'centos'
 dcos_bootstrap_ssh_key : '~/.ssh/id_rsa'
 dcos_bootstrap_exhibitor_storage_backend : 'static'
+
+#dcos_oauth_issuer_url: https://youraccount.auth0.com
+#dcos_oauth_client_id: c707a09e-54ce-11e6-bc2d-989096e41e7c
+#dcos_oauth_redirector: https://youraccount.auth0.com
+#dcos_oauth_host: https://youraccount.auth0.com

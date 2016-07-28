@@ -14,4 +14,9 @@ agent_list: [{% for host in groups[dcos_bootstrap_agent_group] %}{{hostvars[host
 
 resolvers: {% if dcos_upstream_resolvers is defined %}{{ dcos_upstream_resolvers | to_json }}{% elif ansible_dns.nameservers is defined %}["{{ ansible_dns.nameservers[0] }}"]{% endif %}
 
-
+{% if oauth_issuer_url is defined %}
+oauth_issuer_url: {{dcos_oauth_issuer_url | to_json}}
+oauth_client_id: {{dcos_oauth_client_id | to_json}}
+auth_redirector: {{dcos_oauth_redirector | to_json}}
+oauth_host: {{dcos_oauth_host | to_json}}
+{% endif %}
