@@ -20,3 +20,5 @@ oauth_client_id: {{dcos_oauth_client_id | to_json}}
 auth_redirector: {{dcos_oauth_redirector | to_json}}
 oauth_host: {{dcos_oauth_host | to_json}}
 {% endif %}
+
+telemetry_enabled: {{ dcos_bootstrap_telemetry | to_json }}
