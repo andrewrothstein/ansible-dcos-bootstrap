@@ -28,3 +28,4 @@ dcos_bootstrap_exhibitor_storage_backend : 'static'
 #dcos_oauth_host: https://youraccount.auth0.com
 
 dcos_bootstrap_telemetry : 'true'
+dcos_bootstrap_timeout_seconds : 300

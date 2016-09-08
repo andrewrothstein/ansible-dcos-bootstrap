@@ -27,6 +27,7 @@
   get_url: >-
     url={{dcos_bootstrap_generate_config_url}}
     dest={{dcos_bootstrap_dir}}/{{dcos_bootstrap_generate_config}}
+    timeout={{dcos_bootstrap_timeout_seconds}}
     mode=0755
     
 - name: generate configuration
