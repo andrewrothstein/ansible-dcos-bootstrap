@@ -1,7 +1,7 @@
 ---
 dcos_bootstrap_iface : eth0
 dcos_bootstrap_superuser_password : '8f356880-3e04-11e6-97d5-989096e41e7c'
-dcos_bootstrap_mirror : 'https://downloads.dcos.io/dcos/EarlyAccess'
+dcos_bootstrap_mirror : 'https://downloads.dcos.io/dcos/stable'
 dcos_bootstrap_dir : '{{ansible_env.HOME}}/dcos-bootstrap'
 
 dcos_bootstrap_master_group : 'dcos-masters'
