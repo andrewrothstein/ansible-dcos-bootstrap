@@ -10,7 +10,9 @@ ssh_user : {{dcos_bootstrap_ssh_user | to_json}}
 
 master_list: [{% for host in groups[dcos_bootstrap_master_group] %}{{hostvars[host]['ansible_' + hostvars[host]['dcos_bootstrap_iface']]['ipv4']['address'] | to_json}}{% if not loop.last %},{% endif %}{% endfor %}]
 
-agent_list: [{% for host in groups[dcos_bootstrap_agent_group] %}{{hostvars[host]['ansible_' + hostvars[host]['dcos_bootstrap_iface']]['ipv4']['address'] | to_json}}{% if not loop.last %},{% endif %}{% endfor %}]
+agent_list: [{% for host in groups[dcos_bootstrap_private_agent_group] %}{{hostvars[host]['ansible_' + hostvars[host]['dcos_bootstrap_iface']]['ipv4']['address'] | to_json}}{% if not loop.last %},{% endif %}{% endfor %}]
+
+public_agent_list: [{% for host in groups[dcos_bootstrap_public_agent_group] %}{{hostvars[host]['ansible_' + hostvars[host]['dcos_bootstrap_iface']]['ipv4']['address'] | to_json}}{% if not loop.last %},{% endif %}{% endfor %}]
 
 resolvers: {% if dcos_upstream_resolvers is defined %}{{ dcos_upstream_resolvers | to_json }}{% elif ansible_dns.nameservers is defined %}["{{ ansible_dns.nameservers[0] }}"]{% endif %}
 
@@ -19,6 +21,25 @@ oauth_issuer_url: {{dcos_oauth_issuer_url | to_json}}
 oauth_client_id: {{dcos_oauth_client_id | to_json}}
 auth_redirector: {{dcos_oauth_redirector | to_json}}
 oauth_host: {{dcos_oauth_host | to_json}}
+{% endif %}
+
+{% if dcos_bootstrap_dns_search is defined %}
+dns_search: {% for sd in dcos_bootstrap_dns_search %}{{sd}}{% if not loop.last %} {% endif %}{% endfor %}
+{% endif %}
+
+use_proxy: {{ dcos_bootstrap_use_proxy | default('false') | to_json }}
+{% if dcos_bootstrap_use_proxy %}
+http_proxy: {{ dcos_bootstrap_http_proxy | to_json }}
+https_proxy: {{ dcos_bootstrap_https_proxy | to_json }}
+no_proxy: {{ dcos_bootstrap_no_proxy | to_json }}
+{% endif %}
+
+{% if dcos_bootstrap_docker_remove_delay is defined %}
+docker_remove_delay: {{ dcos_bootstrap_docker_remove_delay | to_json }}
+{% endif %}
+
+{% if dcos_bootstrap_process_timeout_seconds is defined %}
+process_timeout: {{ dcos_bootstrap_process_timeout_seconds | to_json }}
 {% endif %}
 
 telemetry_enabled: {{ dcos_bootstrap_telemetry | to_json }}

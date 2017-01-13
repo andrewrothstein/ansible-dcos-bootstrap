@@ -3,3 +3,13 @@
 dcos_bootstrap_generate_config : 'dcos_generate_config.sh'
 dcos_bootstrap_generate_config_url : '{{dcos_bootstrap_mirror}}/{{dcos_bootstrap_generate_config}}'
 dcos_bootstrap_url : "http://{{ hostvars[groups[dcos_bootstrap_group][0]]['ansible_' + hostvars[groups[dcos_bootstrap_group][0]]['dcos_bootstrap_iface']]['ipv4']['address'] }}:{{dcos_bootstrap_port}}"
+
+dcos_bootstrap_default_no_proxy: '{% if proxy_env is defined %}{{ proxy_env.no_proxy }}{% endif %}'
+dcos_bootstrap_host_no_proxy: '{% for host in groups[dcos_bootstrap_group] %}{{hostvars[host]["ansible_" + hostvars[host]["dcos_bootstrap_iface"]]["ipv4"]["address"]}}{% if not loop.last %},{% endif %}{% endfor %}'
+dcos_bootstrap_master_no_proxy: '{% for host in groups[dcos_bootstrap_master_group] %}{{hostvars[host]["ansible_" + hostvars[host]["dcos_bootstrap_iface"]]["ipv4"]["address"]}}{% if not loop.last %},{% endif %}{% endfor %}'
+dcos_bootstrap_private_agent_no_proxy: '{% for host in groups[dcos_bootstrap_private_agent_group] %}{{hostvars[host]["ansible_" + hostvars[host]["dcos_bootstrap_iface"]]["ipv4"]["address"]}}{% if not loop.last %},{% endif %}{% endfor %}'
+dcos_bootstrap_public_agent_no_proxy: '{% for host in groups[dcos_bootstrap_public_agent_group] %}{{hostvars[host]["ansible_" + hostvars[host]["dcos_bootstrap_iface"]]["ipv4"]["address"]}}{% if not loop.last %},{% endif %}{% endfor %}'
+dcos_bootstrap_no_proxy : "{{ dcos_bootstrap_default_no_proxy.split(',') + dcos_bootstrap_host_no_proxy.split(',') + dcos_bootstrap_master_no_proxy.split(',') + dcos_bootstrap_private_agent_no_proxy.split(',') + dcos_bootstrap_public_agent_no_proxy.split(',') }}"
+
+dcos_bootstrap_http_proxy : "{% if proxy_env is defined %}{{proxy_env.http_proxy}}{% endif %}"
+dcos_bootstrap_https_proxy : "{% if proxy_env is defined %}{{proxy_env.https_proxy}}{% endif %}"

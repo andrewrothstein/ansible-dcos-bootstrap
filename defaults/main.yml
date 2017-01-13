@@ -7,8 +7,11 @@ dcos_bootstrap_dir : '{{ansible_env.HOME}}/dcos-bootstrap'
 dcos_bootstrap_master_group : 'dcos-masters'
 dcos_bootstrap_master_discovery : 'static'
 
-# all public and private agents
-dcos_bootstrap_agent_group : 'dcos-agents'
+# all private agents
+dcos_bootstrap_private_agent_group : 'dcos-private-agents'
+
+# all public agents
+dcos_bootstrap_public_agent_group : 'dcos-public-agents'
 
 # group containing the bootstrap node
 dcos_bootstrap_group : 'dcos-bootstrap'
@@ -27,5 +30,17 @@ dcos_bootstrap_exhibitor_storage_backend : 'static'
 #dcos_oauth_redirector: https://youraccount.auth0.com
 #dcos_oauth_host: https://youraccount.auth0.com
 
+# proxy settings
+dcos_bootstrap_use_proxy : 'false'
+#dcos_bootstrap_http_proxy : <your_http_proxy>
+#dcos_bootstrap_https_proxy : <your_https_proxy>
+#dcos_bootstrap_no_proxy : ["ip_address","domain",...]
+
 dcos_bootstrap_telemetry : 'true'
 dcos_bootstrap_timeout_seconds : 300
+
+# dcos_bootstrap_docker_remove_delay : '1hr'
+# dcos_bootstrap_process_timeout_seconds : 120
+
+# dns search domains
+#dcos_bootstrap_dns_search: [ dc1.example.com, example.com ]
