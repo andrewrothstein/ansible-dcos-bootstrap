@@ -21,9 +21,11 @@ See [meta/main.yml](meta/main.yml)
 Example Playbook
 ----------------
 
-    - hosts: servers
-      roles:
-         - andrewrothstein.dcos-bootstrap
+```yml
+- hosts: servers
+  roles:
+    - andrewrothstein.dcos-bootstrap
+```
 
 License
 -------
@@ -33,4 +35,4 @@ MIT
 Author Information
 ------------------
 
-Andrew Rothstein andrew.rothstein@gmail.com
+Andrew Rothstein <andrew.rothstein@gmail.com>
