@@ -18,6 +18,7 @@
   with_items:
     - genconf/ip-detect
     - genconf/config.yaml
+  register: dcos_bootstrap_config
   template: >-
     src={{item}}.j2
     dest={{dcos_bootstrap_dir}}/{{item}}
@@ -31,6 +32,7 @@
     mode=0755
     
 - name: generate configuration
+  when: dcos_bootstrap_config.changed
   with_items:
     - '{{dcos_bootstrap_dir}}/{{dcos_bootstrap_generate_config}}'
   command: '{{item}}'
